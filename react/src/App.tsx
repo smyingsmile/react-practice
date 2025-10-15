@@ -11,7 +11,7 @@ type MyButtonProps = {
 function MyButton({ isClicked, handleClick }: MyButtonProps) {
     // console.log('我属于', colId)
     return (
-        <li>
+        <li className='border border-gray-300'>
             <button onClick={handleClick} style={{
                 backgroundColor: isClicked ? 'black' : 'white'
             }}>
@@ -36,7 +36,9 @@ function MyColumn({ values }: { values: number[] }) {
     // console.log('list', list)
     return (
         list.map((e, i) =>
-            <p key={i}>{e}</p>
+            <div className='border-4 border-indigo-200 border-b-indigo-500 my-4'>
+                <p key={i} className="font-mono text-center text-left m-2">{e}</p>
+            </div>
         )
     )
 }
@@ -94,39 +96,34 @@ function App() {
 
     return (
         <>
-            <h1>Char Tool</h1>
-            <div className="card">
-                <div className="columns">
-                    {
-                        Array.from({ length: cols }, (_, colId) => (
-                            <div key={colId}>{
-                                buttons
-                                    .filter(b => b.colId === colId)
-                                    .map(button =>
-                                        <MyButton key={button.id}
-                                            isClicked={button.isClicked}
-                                            handleClick={() => handleClick(colId, button.id)}></MyButton>
-                                    )
-                            }</div>
-                        ))
-                    }
-                </div>
-                <div className="listShow">
-                    <MyColumn values={values}></MyColumn>
-                </div>
-                <div className='buttonGroup'>
-                    <button onClick={copy}>Copy</button>
-                    {copied && <span> ✅ 已复制</span>}
-                    <button onClick={clear}>Clear</button>
-                </div>
-
-                <p>
-
-                </p>
+            <h1 className='underline decoration-wavy mb-8 decoration-pink-500/20 underline-offset-4 font-stretch-expanded text-blue-600/50 dark:text-sky-400/50'>Char Tool</h1>
+            <div className="mx-auto flex max-w-sm items-center gap-x-4 rounded-xl bg-white p-6 shadow-lg outline outline-black/5 dark:bg-slate-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">
+                <div className="card flex flex-row gap-8">
+                    <div className="flex">
+                        {
+                            Array.from({ length: cols }, (_, colId) => (
+                                <div key={colId}>{
+                                    buttons
+                                        .filter(b => b.colId === colId)
+                                        .map(button =>
+                                            <MyButton key={button.id}
+                                                isClicked={button.isClicked}
+                                                handleClick={() => handleClick(colId, button.id)}></MyButton>
+                                        )
+                                }</div>
+                            ))
+                        }
+                    </div>
+                    <div className="listShow m-auto">
+                        <MyColumn values={values}></MyColumn>
+                    </div>
+                </div >
             </div>
-            <p className="read-the-docs">
-                {/* {{ chars }} */}
-            </p>
+            <div className='grid grid-cols-2 gap-4 mt-8'>
+                <button onClick={copy} className="!bg-indigo-500 hover:bg-fuchsia-500 text-white">Copy</button>
+                {copied && <span> ✅ 已复制</span>}
+                <button onClick={clear}>Clear</button>
+            </div>
         </>
     )
 }
