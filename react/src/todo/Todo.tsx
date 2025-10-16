@@ -14,19 +14,31 @@ interface ListProps {
     removeItem: (i: number) => void;
 }
 
+// TODO: 保证当前有且只有一个被改变的 input value
 function List({ list, updateStatus, saveEdit, removeItem }: ListProps) {
     const [text, setText] = useState<string>('');
+    const [statusList, setStatusList] = useState<number[]>([]);
     // const [status, setStatus] = useState<string>('default')
 
     const handleChange = (e: any) => {
-        // console.log('e', e)
-        setText(e.target?.value)
+        console.log('e', e)
+        // setText(e.target?.value)
     }
 
     const onEdit = (i: number) => {
         // 直接 list[i].status = … 是在 mutate 原对象，引用没变，React 会认为 state 没更新，页面不刷新。
-        console.log('i', i)
+
+        // 同时只支持 edit 一个, 其他会默认设置回 default mode
+        if (statusList.includes(i)) {
+            // do nothing
+        } else {
+            updateStatus(statusList[0], 'default')
+            // statusList.pop()
+            setStatusList(pre => pre.slice(1))
+        }
         updateStatus(i, 'edit')
+        setStatusList(pre => pre.concat(i))
+        console.log('i', i, statusList)
     }
 
     const onSave = (i: number) => {
@@ -48,6 +60,8 @@ function List({ list, updateStatus, saveEdit, removeItem }: ListProps) {
 
     const dynamicItem = (task: List) => {
         if (task.status === 'edit') {
+            // 增加 edit 时, 默认显示之前的 value
+            setText(task.value)
             return <input className="border border-dashed w-45 h-10 px-2 focus:border-indigo-600 focus:outline-hidden"
                 onChange={handleChange} value={text}></input>
         } else if (task.status === 'done') {
@@ -127,13 +141,19 @@ function Todo() {
         setList(prev => prev.filter((_, i) => i !== index))
     }
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleClick('add', value)
+        }
+    }
+
     return (
         <>
             <h1 className='bg-linear-to-r from-pink-500 to-violet-500 bg-clip-text text-5xl font-extrabold text-transparent mb-15'>TODO List</h1>
             <div className="flex justify-center m-8 items-center">
                 <input type="text"
                     className="h-10 mr-4 block w-full max-w-xs border-b-2 border-gray-300 bg-gray-50 px-2 py-2 text-sm text-gray-800 focus:border-indigo-600 focus:outline-hidden dark:border-white/15 dark:bg-white/5 dark:text-white dark:focus:border-indigo-500"
-                    value={value} onChange={handleChange} placeholder="enter todo">
+                    value={value} onChange={handleChange} placeholder="enter todo" onKeyDown={handleKeyDown}>
                 </input>
                 <button className="!bg-indigo-500 hover:bg-fuchsia-500 text-white" onClick={() => handleClick('add', value)}>Add</button>
                 <button className="!bg-gray-500/20 ml-4" onClick={() => handleClick('clear', value)}>Clear</button>
