@@ -10,4 +10,4 @@ Char tool for asm/vm encode_map array.
 TODO List using React.
 Pending: Virtual Scrolling 10W +
 
-<img width="825" height="795" alt="7dd4edf2067270f992a77e17bf120a94" src="https://github.com/user-attachments/assets/a90e866d-c98f-4c46-baef-1b0ef10f731d" />
+<img width="1478" height="1608" alt="QQ_1760595547217" src="https://github.com/user-attachments/assets/8c492bf0-03df-4acb-9969-50b0eb4f8abc" />
