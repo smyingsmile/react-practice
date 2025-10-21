@@ -72,7 +72,7 @@ function List({ list, updateStatus, saveEdit, removeItem }: ListProps) {
     }
 
     return (
-        <div >
+        <div>
             <div className='grid grid-cols-3 gap-2 items-center mb-2'>
                 <h2> Task List </h2>
                 <h2> Action List </h2>
@@ -166,8 +166,6 @@ function Todo() {
                     }
                 </div>
             </div>
-
-
         </>
     )
 }
