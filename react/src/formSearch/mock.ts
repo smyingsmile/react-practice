@@ -1,3 +1,14 @@
+export interface User {
+    id: number;
+    name: string;
+    email: string;
+    address: string;
+    phone: string;
+    company: string;
+    avatar: string;
+    description: string;
+}
+
 // 模拟 10,000 条用户数据
 export const mockUsers = Array.from({ length: 10000 }, (_, index) => ({
   id: index + 1,
@@ -20,5 +31,12 @@ export const getUsers = (page = 1, pageSize = 100) => {
     page,
     pageSize,
     hasMore: end < mockUsers.length
+  };
+};
+
+export const getAll = () => {
+  return {
+    data: mockUsers,
+    total: mockUsers.length,
   };
 };
